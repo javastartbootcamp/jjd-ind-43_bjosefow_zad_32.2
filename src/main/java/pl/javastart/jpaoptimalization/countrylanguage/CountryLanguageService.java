@@ -3,6 +3,8 @@ package pl.javastart.jpaoptimalization.countrylanguage;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CountryLanguageService {
@@ -13,7 +15,12 @@ public class CountryLanguageService {
         this.countryLanguageRepository = countryLanguageRepository;
     }
 
-    public List<CountryLanguage> findAll() {
-        return countryLanguageRepository.findAll();
+    public List<CountryLanguageInfo> findAll() {
+        return countryLanguageRepository.findAllCountryLanguage();
     }
+
+    public Map<String, List<CountryLanguageInfo>> findAllMap() {
+        return findAll().stream().collect(Collectors.groupingBy(CountryLanguageInfo::getLanguage));
+    }
+
 }

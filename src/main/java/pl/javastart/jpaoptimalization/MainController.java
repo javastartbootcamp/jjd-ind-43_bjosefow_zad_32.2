@@ -5,10 +5,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import pl.javastart.jpaoptimalization.country.Country;
 import pl.javastart.jpaoptimalization.country.CountryService;
-import pl.javastart.jpaoptimalization.countrylanguage.CountryLanguage;
+import pl.javastart.jpaoptimalization.countrylanguage.CountryLanguageInfo;
 import pl.javastart.jpaoptimalization.countrylanguage.CountryLanguageService;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MainController {
@@ -24,7 +25,7 @@ public class MainController {
 
     @GetMapping("/najwieksze-miasta")
     public String countryWithBiggestCity(Model model) {
-        List<Country> countries = countryService.findAll();
+        List<Country> countries = countryService.findAllCountryCity();
         model.addAttribute("countries", countries);
 
         return "countryWithBiggestCity";
@@ -32,7 +33,7 @@ public class MainController {
 
     @GetMapping("/kraje-i-jezyki")
     public String countryWithLanguages(Model model) {
-        List<Country> countries = countryService.findAll();
+        List<Country> countries = countryService.findAllCountryLang();
 
         model.addAttribute("countries", countries);
 
@@ -41,9 +42,9 @@ public class MainController {
 
     @GetMapping("/jezyki-i-kraje")
     public String languagesWithCountries(Model model) {
-        List<CountryLanguage> languages = countryLanguageService.findAll();
+        Map<String, List<CountryLanguageInfo>> languagesMap = countryLanguageService.findAllMap();
 
-        model.addAttribute("languages", languages);
+        model.addAttribute("languages", languagesMap);
 
         return "languagesWithCountries";
     }
